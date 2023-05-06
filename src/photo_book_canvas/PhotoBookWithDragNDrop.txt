@@ -1,0 +1,144 @@
+import React,{useState , useEffect} from "react";
+import { fabric } from "fabric";
+export default function PhotoBookWithDragNDrop() {
+
+  const canvas1 = new fabric.Canvas("canvas1");
+   
+  const [activeCanvas, setactiveCanvas] = useState("")
+//   useEffect(() => {
+    
+    fabric.Image.fromURL('https://images.unsplash.com/photo-1681404141874-633aa2de7c76?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyM3x8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=60', function(img) {
+        img.set({
+          left: 100,  
+          top: 100,
+          scaleX: 0.5,    
+          scaleY: 0.5    
+        });        
+        canvas1.add(img);
+        canvas1.renderAll();
+      });  
+
+    fabric.Image.fromURL('https://images.unsplash.com/photo-1681392282273-91f7b6e3d272?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0MHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=60', function(img) {
+        img.set({
+          left: 0,  
+          top: 100,
+          scaleX: 0.5,  
+          scaleY: 0.5      
+        });        
+        canvas2.add(img);
+        canvas2.renderAll();
+      });  
+    fabric.Image.fromURL('https://images.unsplash.com/photo-1681679328683-c4d4ef25b90c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5OHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=60', function(img) {
+        img.set({
+          left: 100,  
+          top: 100,
+          scaleX: 0.5,  
+          scaleY: 0.5        
+        });        
+        canvas3.add(img);
+        canvas3.renderAll();
+      });  
+     
+  canvas1.on("mouse:over",function (event) {  
+    console.log("mouseup", event);
+    setactiveCanvas("canvas1")
+    // alert("canvas1 Active",canvas1);
+  });  
+  
+
+  const canvas2 = new fabric.Canvas("canvas2");
+
+  canvas2.on("mouse:over",function (event) {  
+    console.log("mouseup", event);
+    setactiveCanvas("canvas2")
+  
+    // alert("canvas2 Active");  
+  });      
+  
+  const canvas3 = new fabric.Canvas("canvas3");
+  canvas3.on("mouse:over",function (event) {  
+    console.log("mouseup", event);
+    setactiveCanvas("canvas3")  
+
+    // alert("canvas3 Active");  
+  });  
+  
+// Add event listener to the first canvas
+canvas1.on('mouse:down', function(options) {
+    var image = options.target;
+        console.log("mouseDown Called",image);
+    // If the user is dragging the image, remove it from the first canvas
+    if (image && image.selectable) {
+    //   canvas1.remove(image);
+    }
+  });    
+
+  console.log("canvas1._activeObject",canvas1);
+
+//   for canvas 2 
+
+// Add event listener to the second canvas
+canvas2.on('mouse:up', function(options) {
+    var pointer = canvas2.getPointer(options.e);
+    var image = options.target;
+      console.log("canvas2 open");
+    // If there is an image being dropped on the second canvas, add it to the canvas
+    if (image && image.selectable) {
+      image.set({  
+        left: pointer.x,
+        top: pointer.y  
+      });  
+      canvas2.add(image); 
+    }
+  });
+       
+//   drag N drop Images  
+   
+
+canvas1.renderAll();   
+  canvas2.renderAll(); 
+  canvas3.renderAll(); 
+// }, [])
+
+  console.log("canvas1.getActiveObject()",canvas1.getActiveObjects());
+            
+  return (
+    <div className="container mt-5">
+      PhotoBook
+      <br />
+      <h6 className="ms-5">Active Canvas : {activeCanvas}</h6>
+      <br />
+      <div className="d-flex justify-content-center ">
+    
+        <div>   
+          {" "}
+          <canvas
+            id="canvas1"
+            height={400}
+            width={400}
+            style={{  border: "1px solid red" }}
+          ></canvas>
+        </div>
+        <div>  
+          {" "}
+          <canvas
+            id="canvas2"
+            height={400}
+            width={100}
+            style={{ border:  "1px solid green" }}
+          ></canvas>
+        </div>
+        <div>
+          {" "}
+          <canvas
+            id="canvas3"
+            height={400}
+            width={400}
+            style={{ border: "1px solid blue" }}
+          ></canvas>
+        </div>
+      </div>
+    </div>
+  );
+}
+

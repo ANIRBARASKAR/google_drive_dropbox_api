@@ -1,0 +1,10 @@
+canvas.on("object:out-of-canvas", function(e) {
+  var obj = e.target;
+  if (obj) {
+    // check if object is completely outside the canvas boundaries
+    if (obj.left < 0 || obj.top < 0 || obj.left + obj.width > canvas.width || obj.top + obj.height > canvas.height) {
+      // display alert
+      alert("Object is outside of canvas!");
+    }
+  }
+});
